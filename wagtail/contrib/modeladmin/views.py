@@ -313,7 +313,10 @@ class IndexView(WMABaseView):
                     # since it's ignored in ChangeList.get_filters().
                     return True
                 model = field.remote_field.model
-                rel_name = field.remote_field.get_related_field().name
+                try:
+                    rel_name = field.remote_field.get_related_field().name
+                except AttributeError:
+                    rel_name = field.get_related_field().name
             elif isinstance(field, ForeignObjectRel):
                 model = field.model
                 rel_name = model._meta.pk.name
