@@ -189,7 +189,10 @@ class InlineEntityElementHandler:
 
     def handle_endtag(self, name, state, contentstate):
         entity_range = state.current_entity_ranges.pop()
-        entity_range.length = len(state.current_block.text) - entity_range.offset
+        try:
+            entity_range.length = len(state.current_block.text) - entity_range.offset
+        except AttributeError:
+            entity_range.length = entity_range.offset
 
 
 class LinkElementHandler(InlineEntityElementHandler):
